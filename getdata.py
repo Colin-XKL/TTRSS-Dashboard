@@ -41,7 +41,6 @@ def get_cat_info(catid: int):
         for cat in summary['categories']:
             if cat.id == catid:
                 info['cat'] = cat
-        # info['cat'] = summary['categories'][catid]
     except:
         info['cat'] = 'Something went wrong...'
     client.logout()
@@ -49,15 +48,11 @@ def get_cat_info(catid: int):
 
 
 def get_feed_info(feedid: int):
-    # client=get_client()
-    # client.login()
-    # client.feed
-    print(feeds[feedid].title)
+
     return feeds[feedid]
 
 
 def get_freq_list_for_feed(feedid: int):
-    # l=[]
     client = get_client()
     client.login()
     headlines = client.get_headlines(feed_id=feedid)
@@ -69,7 +64,6 @@ def get_freq_list_for_feed(feedid: int):
     l = split(titles)
     re = []
     for i in l:
-        # print(l)
         re.append({'x': i[0], 'value': i[-1]})
     if len(re) > 100:
         return re[:70]
@@ -77,8 +71,6 @@ def get_freq_list_for_feed(feedid: int):
 
 
 def get_titles():
-    from ttrss.client import TTRClient
-    # client = TTRClient(ttrss_url, ttrss_user, ttrss_passwd)
     client = get_client()
     client.login()
     cats = client.get_categories()
@@ -105,8 +97,6 @@ def split(titles: list):
         if len(w) > 1:
             freq_map[w] = freq_map.get(w, 0) + 1
     freq_list = list(freq_map.items())
-    # print(freq_list)
     freq_list.sort(key=lambda x: x[1], reverse=True)
-    # return freq_map
     return freq_list
 

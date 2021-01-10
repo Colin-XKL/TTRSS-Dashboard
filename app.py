@@ -1,6 +1,6 @@
-from jinja2 import Template
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
+
 import getdata
 
 app = Flask(__name__)
