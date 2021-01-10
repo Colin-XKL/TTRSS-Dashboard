@@ -1,8 +1,8 @@
-from ttrss.client import TTRClient
 import os
+from ttrss.client import TTRClient
 
-summary = {}
-feeds = {}
+Summary = {}
+Feeds = {}
 
 
 def get_client():
@@ -10,7 +10,7 @@ def get_client():
     ttrss_user = os.getenv('TTRSS_USER')
     ttrss_passwd = os.getenv('TTRSS_PASSWORD')
     # ttrss_url = 'http://URL'
-    # ttrss_user = 'USERNSAME'
+    # ttrss_user = 'USERNAME'
     # ttrss_passwd = 'PASSWORD'
     client = TTRClient(ttrss_url, ttrss_user, ttrss_passwd)
     return client
@@ -19,27 +19,27 @@ def get_client():
 def get_summary():
     client = get_client()
     client.login()
-    summary['feed_count'] = client.get_feed_count()
-    summary['unread_count'] = client.get_unread_count()
-    summary['label'] = len(client.get_labels())
-    summary['categories'] = client.get_categories()
-    for cat in summary['categories']:
-        for f in cat.feeds():
-            feeds[f.id] = f
+    Summary['feed_count'] = client.get_feed_count()
+    Summary['unread_count'] = client.get_unread_count()
+    Summary['label'] = len(client.get_labels())
+    Summary['categories'] = client.get_categories()
+    for cat in Summary['categories']:
+        for feed in cat.Feeds():
+            Feeds[feed.id] = feed
     client.logout()
 
-    return summary
+    return Summary
 
 
-def get_cat_info(catid: int):
+def get_cat_info(cat_id: int):
     client = get_client()
     client.login()
     info = {}
-    feeds = client.get_feeds(cat_id=catid)
-    info['feeds'] = feeds
+    feeds = client.get_feeds(cat_id=cat_id)
+    info['Feeds'] = feeds
     try:
-        for cat in summary['categories']:
-            if cat.id == catid:
+        for cat in Summary['categories']:
+            if cat.id == cat_id:
                 info['cat'] = cat
     except:
         info['cat'] = 'Something went wrong...'
@@ -47,27 +47,26 @@ def get_cat_info(catid: int):
     return info
 
 
-def get_feed_info(feedid: int):
+def get_feed_info(feed_id: int):
+    return Feeds[feed_id]
 
-    return feeds[feedid]
 
-
-def get_freq_list_for_feed(feedid: int):
+def get_freq_list_for_feed(feed_id: int):
     client = get_client()
     client.login()
-    headlines = client.get_headlines(feed_id=feedid)
+    headlines = client.get_headlines(feed_id=feed_id)
     titles = []
-    for h in headlines:
-        titles.append(h.title)
+    for headline in headlines:
+        titles.append(headline.title)
     client.logout()
 
-    l = split(titles)
-    re = []
-    for i in l:
-        re.append({'x': i[0], 'value': i[-1]})
-    if len(re) > 100:
-        return re[:70]
-    return re
+    split_result = split(titles)
+    result = []
+    for i in split_result:
+        result.append({'x': i[0], 'value': i[-1]})
+    if len(result) > 100:
+        return result[:70]
+    return result
 
 
 def get_titles():
@@ -75,7 +74,7 @@ def get_titles():
     client.login()
     cats = client.get_categories()
     cat = cats[0]
-    feeds = cat.feeds()
+    feeds = cat.Feeds()
     feed = feeds[0]
     headlines = feed.headlines()
     titles = []
@@ -90,13 +89,12 @@ def split(titles: list):
     import jieba
     words = []
     freq_map = {}
-    for t in titles:
-        for tt in jieba.lcut(t):
-            words.append(tt)
-    for w in words:
-        if len(w) > 1:
-            freq_map[w] = freq_map.get(w, 0) + 1
+    for title in titles:
+        for tmp_var in jieba.lcut(title):
+            words.append(tmp_var)
+    for word in words:
+        if len(word) > 1:
+            freq_map[word] = freq_map.get(word, 0) + 1
     freq_list = list(freq_map.items())
     freq_list.sort(key=lambda x: x[1], reverse=True)
     return freq_list
-
