@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {{ bootstrap.load_css() }}
+    <script type="text/javascript" src="https://unpkg.com/@antv/g2plot@latest/dist/g2plot.min.js"></script>
+    <script>
+        const {Line} = G2Plot;
+        const {WordCloud} = G2Plot;
+        const {Bar} = G2Plot;
+    </script>
+    <script>
+        {#import {WordCloud} from '@antv/g2plot';#}
+
+        {#fetch('https://gw.alipayobjects.com/os/antvdemo/assets/data/world-population.json')#}
+        fetch('/api/get-freq-list-for-feed/{{ feedid}}')
+            .then((res) => res.json())
+            .then((data) => {
+                    {#console.log(data)#}
+                    const wordCloud = new WordCloud('cloud', {
+                        data,
+                        wordField: 'x',
+                        weightField: 'value',
+                        color: '#1542b0',
+                        wordStyle: {
+                            fontFamily: 'sans-serif',
+                            fontSize: [24, 80],
+                        },
+                        // 设置交互类型
+                        interactions: [{type: 'element-active'}],
+                        state: {
+                            active: {
+                                // 这里可以设置 active 时的样式
+                                style: {
+                                    lineWidth: 3,
+                                },
+                            },
+                        },
+                    });
+                    wordCloud.render();
+
+                    const bar = new Bar('bar', {
+                        data,
+                        xField: 'value',
+                        yField: 'x',
+                        seriesField: 'x',
+                        legend: {
+                            position: 'top-left',
+                        },
+                    });
+                    bar.render();
+                }
+            ).then(() => {
+                document.getElementById('loading').style.display = 'none';
+            }
+        )
+        ;
+
+
+    </script>
+    <title>Feed</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">TTRSS Dashboard</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link text-primary font-weight-bold" href="/">Home </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link font-weight-bold" href="#">Features</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link font-weight-bold" href="#">Pricing</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link disabled text-info font-weight-lighte" href="#" tabindex="-1" aria-disabled="true">Brought to you by Colin</a>
+            </li>
+        </ul>
+    </div>
+</nav><main role="main" class="container" style="padding-top: 30px">
+    <h1 class="align-content-center">Colin's TTRSS Dashboard</h1>
+    <blockquote class="blockquote">
+        <p class="mb-0">Prefer knowledge to wealth, for the one is transitory, the other perpetual.</p>
+        <footer class="blockquote-footer">Socrates</footer>
+    </blockquote>
+    <section id="info">
+        <h2>Summary</h2>
+        <div class="card" style="margin: 10px">
+            <h5 class="card-header">Feed Info</h5>
+            <div class="card-body">
+                <h5 class="card-title">{{ feedinfo.title }}</h5>
+                <p class="card-text">{{ feedinfo.feed_url }}</p>
+                <p class="card-text"><strong>Last Update: </strong>{{ feedinfo.last_updated }}</p>
+                <p class="card-text"><strong>Unread Count: </strong>{{ feedinfo.unread }}</p>
+            </div>
+        </div>
+
+
+    </section>
+    <section id="charts">
+        {#        <div class="inline">#}
+        <h2>Analysis
+            <div class="spinner-grow text-primary" role="status" id="loading">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </h2>
+
+        {#        </div>#}
+        <div id="cloud"></div>
+
+        <div id="bar"></div>
+    </section>
+
+
+</main>
+
+<footer>
+    <div class="footer" style="padding-top: 40px">
+        <p class="text-black-50 center small text-center">Copyright Colinx.One 2020</p>
+    </div>
+</footer>
+
+{{ bootstrap.load_js() }}
+</body>
+</html>
