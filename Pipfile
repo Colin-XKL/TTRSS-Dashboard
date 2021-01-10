@@ -5,7 +5,6 @@ name = "tencent"
 
 [packages]
 jinja2 = "*"
-wordcloud = "*"
 jieba = "*"
 ttrss-python = "*"
 flask = "*"
