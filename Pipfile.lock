@@ -18,11 +18,11 @@
     "default": {
         "bootstrap-flask": {
             "hashes": [
-                "sha256:4813ab4b7cd35fe16ebd15789b4edb45ed6e528c8eb6f44790efba48e8410ebc",
-                "sha256:b2716e60289fa7d636b633614717a338dc5cae144bdf8983680403193b891305"
+                "sha256:2b07d3635eac8c8b5f337845c658527b313ff298c4238dd9054649b3419025bd",
+                "sha256:e3291290320a1f6596325ad4006522a656d9e3cb688090af83d42a7d25bdc1e4"
             ],
             "index": "tencent",
-            "version": "==1.5.1"
+            "version": "==1.5.2"
         },
         "certifi": {
             "hashes": [
