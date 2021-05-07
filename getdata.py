@@ -6,9 +6,9 @@ Feeds = {}
 
 
 def get_client():
-    ttrss_url = os.getenv('TTRSS_URL')
-    ttrss_user = os.getenv('TTRSS_USER')
-    ttrss_passwd = os.getenv('TTRSS_PASSWORD')
+    ttrss_url = os.getenv("TTRSS_URL")
+    ttrss_user = os.getenv("TTRSS_USER")
+    ttrss_passwd = os.getenv("TTRSS_PASSWORD")
     # ttrss_url = 'http://URL'
     # ttrss_user = 'USERNAME'
     # ttrss_passwd = 'PASSWORD'
@@ -19,11 +19,11 @@ def get_client():
 def get_summary():
     client = get_client()
     client.login()
-    Summary['feed_count'] = client.get_feed_count()
-    Summary['unread_count'] = client.get_unread_count()
-    Summary['label'] = len(client.get_labels())
-    Summary['categories'] = client.get_categories()
-    for cat in Summary['categories']:
+    Summary["feed_count"] = client.get_feed_count()
+    Summary["unread_count"] = client.get_unread_count()
+    Summary["label"] = len(client.get_labels())
+    Summary["categories"] = client.get_categories()
+    for cat in Summary["categories"]:
         for feed in cat.Feeds():
             Feeds[feed.id] = feed
     client.logout()
@@ -36,13 +36,13 @@ def get_cat_info(cat_id: int):
     client.login()
     info = {}
     feeds = client.get_feeds(cat_id=cat_id)
-    info['Feeds'] = feeds
+    info["Feeds"] = feeds
     try:
-        for cat in Summary['categories']:
+        for cat in Summary["categories"]:
             if cat.id == cat_id:
-                info['cat'] = cat
+                info["cat"] = cat
     except:
-        info['cat'] = 'Something went wrong...'
+        info["cat"] = "Something went wrong..."
     client.logout()
     return info
 
@@ -63,7 +63,7 @@ def get_freq_list_for_feed(feed_id: int):
     split_result = split(titles)
     result = []
     for i in split_result:
-        result.append({'x': i[0], 'value': i[-1]})
+        result.append({"x": i[0], "value": i[-1]})
     if len(result) > 100:
         return result[:70]
     return result
@@ -87,6 +87,7 @@ def get_titles():
 
 def split(titles: list):
     import jieba
+
     words = []
     freq_map = {}
     for title in titles:
