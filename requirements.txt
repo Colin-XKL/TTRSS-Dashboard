@@ -1,5 +1,5 @@
 -i https://mirrors.cloud.tencent.com/pypi/simple/
-bootstrap-flask==1.5.3
+bootstrap-flask==1.6.0
 certifi==2021.5.30
 chardet==4.0.0
 click==8.0.1

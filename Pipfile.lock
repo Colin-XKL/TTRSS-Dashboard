@@ -18,11 +18,11 @@
     "default": {
         "bootstrap-flask": {
             "hashes": [
-                "sha256:64c544d6fb1bec568c135bdd21d42d2b0ccd3ec84a96b81dd1f6ab55243f1dd7",
-                "sha256:b9a78d4399157f9a1fefb8ab18b159a6d83df4a3e07da72c4858164619badcf7"
+                "sha256:30c0d21952000b3bb4f51da9550737870ff040d3b4436515e54e1a1e2782dbd6",
+                "sha256:7959838820db59ca94b5ae47bea7f4acd848e8d86107e4de01f16fc2b04691d6"
             ],
             "index": "tencent",
-            "version": "==1.5.3"
+            "version": "==1.6.0"
         },
         "certifi": {
             "hashes": [
@@ -140,7 +140,6 @@
                 "sha256:753a0374df26658f99d826cfe40394a686d05985786d946fbe4165b5148f5a7c",
                 "sha256:a7acd0977125325f516bda9735fa7142b909a8d01e8b2e4c8108d0984e6e0098"
             ],
-            "index": "tencent",
             "version": "==1.26.5"
         },
         "werkzeug": {
