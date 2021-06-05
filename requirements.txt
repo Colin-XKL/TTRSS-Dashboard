@@ -7,7 +7,7 @@ flask==1.1.2
 idna==2.10
 itsdangerous==2.0.1
 jieba==0.42.1
-jinja2==2.11.3
+jinja2==3.0.1
 markupsafe==2.0.1
 requests==2.25.1
 ttrss-python==0.5
