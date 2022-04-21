@@ -8,7 +8,7 @@ idna==2.10
 itsdangerous==2.0.1
 jieba==0.42.1
 jinja2==2.11.3
-markupsafe==2.0.1
+markupsafe==2.1.1
 requests==2.25.1
 ttrss-python==0.5
 urllib3==1.26.5
