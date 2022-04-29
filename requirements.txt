@@ -12,4 +12,4 @@ markupsafe==2.0.1
 requests==2.25.1
 ttrss-python==0.5
 urllib3==1.26.5
-werkzeug==2.0.1
+werkzeug==2.1.2
