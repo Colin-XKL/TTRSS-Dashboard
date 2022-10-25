@@ -1,4 +1,4 @@
-FROM python:3.9.5-slim-buster
+FROM python:3.11.0-slim-buster
 LABEL author="Colin"
 LABEL maintainer="Colin_XKL@outlook.com"
 LABEL homepage="https://github.com/Colin-XKL/TTRSS-Dashboard"
