@@ -11,5 +11,5 @@ jinja2==2.11.3
 markupsafe==2.0.1
 requests==2.25.1
 ttrss-python==0.5
-urllib3==1.26.5
+urllib3==1.26.18
 werkzeug==2.0.1
