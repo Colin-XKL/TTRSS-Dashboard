@@ -37,6 +37,10 @@ A modern, elegant dashboard for analyzing your Tiny Tiny RSS (TT-RSS) data, buil
     ```
 
 ## Running Locally
+0. You can map your running ttrss db via ssh port forwarding.
+```bash
+ssh -L 5432:localhost:5432 your_server
+```
 
 1.  **Install dependencies**:
     ```bash
@@ -61,3 +65,5 @@ A modern, elegant dashboard for analyzing your Tiny Tiny RSS (TT-RSS) data, buil
     ```bash
     docker run -d -p 8501:8501 --env-file .env ttrss-dashboard
     ```
+
+
