@@ -1,0 +1,41 @@
+[MASTER]
+# Specify a score threshold under which the program will exit with error.
+fail-under=7.0
+
+# Files or directories to be skipped by pylint
+ignore-paths=^/\.venv/,^/venv/,^/\.git/,^/build/,^/dist/,^/\.pytest_cache/
+
+# List of modules that should be imported from the given project package
+init-hook='import sys; sys.path.append(".")'
+
+[MESSAGES CONTROL]
+# Disable certain warning categories that are common in Streamlit apps
+disable=import-error,
+        no-name-in-module,
+        too-few-public-methods,
+        too-many-arguments,
+        too-many-locals,
+        too-many-statements,
+        too-many-branches,
+        too-many-instance-attributes,
+        too-many-lines,
+        too-many-positional-arguments,
+        missing-function-docstring,
+        missing-module-docstring,
+        missing-class-docstring
+
+[FORMAT]
+# Maximum number of characters on a single line
+max-line-length=120
+
+[BASIC]
+# Allow snake_case naming for Streamlit functions
+good-names=i,j,k,x,y,z,_,id,db,py
+
+# Regular expression which should only match the name of functions or classes
+# that does not require a docstring (especially for test functions)
+no-docstring-rgx=(^test_|^mock_|^stub_|main|__init__)
+
+[TYPECHECK]
+# Ignore import errors for project-specific imports
+ignored-modules=src.models,src.database,src.services,src.ui

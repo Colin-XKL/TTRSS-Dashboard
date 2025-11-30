@@ -1,66 +1,69 @@
-# RSS Dashboard
+# TTRSS Dashboard
 
-![CodeQL](https://github.com/Colin-XKL/TTRSS-Dashboard/workflows/CodeQL/badge.svg)
-![Pylint](https://github.com/Colin-XKL/TTRSS-Dashboard/workflows/Pylint/badge.svg)
-![Docker](https://github.com/Colin-XKL/TTRSS-Dashboard/workflows/Docker/badge.svg)
+A modern, elegant dashboard for analyzing your Tiny Tiny RSS (TT-RSS) data, built with [Streamlit](https://streamlit.io).
 
-This applicatioion aims to provide some data analysis on your TTRSS.
+## Features
 
-TTRSS 的一些数据展示与分析,使用`Flask`+`Bootstrap`+`G2Plot`构建
+- **Direct Database Integration**: Connects directly to your TT-RSS database (PostgreSQL or MySQL) for real-time stats.
+- **Interactive Analytics**:
+    - Global statistics (Total Feeds, Unread Count, Labels, Starred).
+    - Feed distribution by category.
+    - Word frequency analysis (Word Cloud & Charts) for individual feeds.
+    - Recent article explorer.
+- **Modern UI**: Clean interface powered by Streamlit and Plotly.
 
-## 主要功能
+## Prerequisites
 
-- TTRSS 订阅列表查看
-- 针对每个订阅源，可以通过词云的方式查看其日常标题都是哪些方面的内容
+- Python 3.12+
+- [Poetry](https://python-poetry.org/) (for dependency management)
+- Access to a running TT-RSS database (PostgreSQL or MySQL).
 
-## 使用
+## Configuration
 
-### Docker 方式
+1.  Clone the repository.
+2.  Copy `.env.example` to `.env`:
+    ```bash
+    cp .env.example .env
+    ```
+3.  Edit `.env` and fill in your database connection details:
 
-#### 命令方式
+    ```ini
+    TTRSS_DB_TYPE=pgsql          # or 'mysql'
+    TTRSS_DB_HOST=localhost
+    TTRSS_DB_PORT=5432
+    TTRSS_DB_NAME=ttrss
+    TTRSS_DB_USER=your_user
+    TTRSS_DB_PASS=your_password
+    ```
 
-```shell
-sudo docker run -it -p 5000:5000 \
- -e TTRSS_URL=你自己TTRSS的URL \
- -e TTRSS_USER=用户名 \
- -e TTRSS_PASSWORD=密码 \
- --name ttrss-dashboard \
- -d colinxkl/ttrss-dashboard:latest
+## Running Locally
+0. You can map your running ttrss db via ssh port forwarding.
+```bash
+ssh -L 5432:localhost:5432 your_server
 ```
 
-修改对应字段的值，在终端中执行命令，之后访问 5000 端口即可。
+1.  **Install dependencies**:
+    ```bash
+    poetry install
+    ```
 
-#### Docker-Compose 方式
+2.  **Run the application**:
+    ```bash
+    poetry run streamlit run src/ui/main.py
+    ```
 
-安装了`docker-compose`后，在项目根目录下找到`docker-compose.yml`，修改用户名等字段，执行`docker-compose up -d`即可。访问 5000 端口即可进行使用。
+3.  Open your browser at `http://localhost:8501`.
 
-### 本地搭建环境
+## Running with Docker
 
-#### 1. 配置环境
+1.  **Build the image**:
+    ```bash
+    docker build -t ttrss-dashboard .
+    ```
 
-若使用`pip`  
-`pip install -r requirements.txt`  
-若使用`pipenv`  
-`pipenv install`
+2.  **Run the container**:
+    ```bash
+    docker run -d -p 8501:8501 --env-file .env ttrss-dashboard
+    ```
 
-#### 2. 配置用户名等信息
 
-若使用环境变量，需要对`TTRSS_URL` `TTRSS_USER` `TTRSS_PASSWORD`三个变量进行设置。
-
-也可直接在`getdata.py`的代码中进行修改。
-
-#### 3. 启动
-
-安装完基本环境后，启动 flask  
-`python3 -m app.py`
-会在控制台输出一个 url，如 `http://localhost:5000/ `，访问这个地址即可进入主面板
-
-## 反馈
-
-有任何问题或建议欢迎提 issue
-
-项目主页：[https://github.com/Colin-XKL/TTRSS-Dashboard](https://github.com/Colin-XKL/TTRSS-Dashboard)
-
-## 协议
-
-MIT
