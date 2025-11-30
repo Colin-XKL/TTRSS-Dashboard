@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "ttrss-dashboard"
+version = "0.1.0"
+description = "A modern Streamlit dashboard for TT-RSS"
+authors = ["Jules"]
+readme = "README.md"
+packages = [{include = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+streamlit = "^1.51.0"
+sqlalchemy = "^2.0.44"
+psycopg2-binary = "^2.9.11"
+pymysql = "^1.1.2"
+jieba = "^0.42.1"
+python-dotenv = "^1.2.1"
+plotly = "^6.5.0"
+streamlit-option-menu = "^0.4.0"
+wordcloud = "^1.9.4"
+matplotlib = "^3.10.7" # Required for wordcloud generation sometimes or useful for other plots
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
