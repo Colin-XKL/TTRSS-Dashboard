@@ -30,6 +30,9 @@ COPY . .
 # Expose Streamlit port
 EXPOSE 8501
 
+# Add /app to PYTHONPATH so imports like "from src..." work
+ENV PYTHONPATH="${PYTHONPATH}:/app"
+
 # Healthcheck to ensure the app is running
 HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health || exit 1
 
