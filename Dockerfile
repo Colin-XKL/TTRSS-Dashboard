@@ -4,10 +4,14 @@ FROM python:3.12-slim
 # libpq-dev is required for psycopg2 (PostgreSQL)
 # gcc and python3-dev are often needed for compiling certain python packages
 RUN apt-get update && apt-get install -y \
-    gcc \
+    build-essential \
     libpq-dev \
     python3-dev \
+    software-properties-common \
+    fonts-noto-cjk \
     && rm -rf /var/lib/apt/lists/*
+
+RUN fc-cache -fv
 
 # Install Poetry
 RUN pip install poetry
@@ -32,9 +36,6 @@ EXPOSE 8501
 
 # Add /app to PYTHONPATH so imports like "from src..." work
 ENV PYTHONPATH="${PYTHONPATH}:/app"
-
-# Healthcheck to ensure the app is running
-HEALTHCHECK CMD curl --fail http://localhost:8501/_stcore/health || exit 1
 
 # Run the application
 CMD ["streamlit", "run", "src/ui/main.py", "--server.port=8501", "--server.address=0.0.0.0"]
