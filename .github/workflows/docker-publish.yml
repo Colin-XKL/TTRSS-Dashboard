@@ -42,11 +42,12 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=sha
+            # set latest tag for default branch
+            type=raw,value=latest,enable={{is_default_branch}}
+            type=edge,branch=dev
+            type=pep440,pattern={{major}}.{{minor}},enable={{is_default_branch}}
+            type=pep440,pattern={{version}},enable={{is_default_branch}}
+          flavor: latest=false
 
       # Build and push Docker image with Buildx (don't push on PR)
       - name: Build and push Docker image
