@@ -31,11 +31,12 @@ FROM python:3.12-slim AS runner
 WORKDIR /app
 
 # Install runtime dependencies
-# fontconfig, fonts-noto-cjk: for Chinese font support in visualizations
+# fontconfig, fonts-noto-cjk, fonts-wqy-zenhei: for Chinese font support in visualizations
 # libpq5: runtime library for PostgreSQL (good to have for consistency)
 RUN apt-get update && apt-get install -y \
     fontconfig \
     fonts-noto-cjk \
+    fonts-wqy-zenhei \
     libpq5 \
     && rm -rf /var/lib/apt/lists/*
 

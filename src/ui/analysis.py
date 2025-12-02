@@ -1,9 +1,55 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+import os
+import matplotlib.font_manager as fm
 from wordcloud import WordCloud
 from sqlalchemy.orm import Session
 from src.services import DashboardService
+
+def get_font_path():
+    """
+    Get the path to a font that supports Chinese characters.
+    Tries to find fonts via matplotlib's font manager first,
+    then checks common locations for Noto Sans CJK and WenQuanYi Zen Hei as fallback.
+    """
+    # 1. Try to find font by family name using matplotlib
+    # Preferred fonts for Chinese rendering
+    font_families = [
+        'Noto Sans CJK SC', 'Noto Sans CJK',
+        'WenQuanYi Zen Hei', 'SimHei', 'Arial Unicode MS'
+    ]
+
+    for family in font_families:
+        try:
+            # findfont returns a default font if the requested one isn't found
+            # so we need to verify if it actually matches what we asked for (roughly)
+            # However, findfont matches best candidate.
+
+            # A more reliable way: check if the family exists in the font manager
+            # fontManager.ttflist is a list of FontEntry objects
+            for f in fm.fontManager.ttflist:
+                if family.lower() in f.name.lower():
+                    return f.fname
+        except Exception:
+            continue
+
+    # 2. Fallback to checking hardcoded paths (useful for Docker environments where
+    # matplotlib cache might not be updated or specific paths are known)
+    candidates = [
+        # Debian/Ubuntu/Docker default for fonts-noto-cjk
+        "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+        "/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc",
+        # WenQuanYi Zen Hei (common fallback)
+        "/usr/share/fonts/truetype/wqy/wqy-zenhei.ttc",
+        "/usr/share/fonts/wqy-zenhei/wqy-zenhei.ttc"
+    ]
+
+    for path in candidates:
+        if os.path.exists(path):
+            return path
+
+    return None
 
 def render_analysis(db: Session):
     st.title("Deep Analysis")
@@ -42,7 +88,16 @@ def render_analysis(db: Session):
                 freq_data = service.get_feed_word_frequency(selected_feed_id)
                 if freq_data:
                     word_dict = dict(freq_data)
-                    wc = WordCloud(width=800, height=400, background_color='white').generate_from_frequencies(word_dict)
+
+                    # Use a Chinese-supporting font if available
+                    font_path = get_font_path()
+                    wc = WordCloud(
+                        width=800,
+                        height=400,
+                        background_color='white',
+                        font_path=font_path
+                    ).generate_from_frequencies(word_dict)
+
                     st.image(wc.to_array(), caption="Word Cloud of Recent Headlines", use_container_width=True)
 
                     df_freq = pd.DataFrame(freq_data, columns=["Word", "Count"]).head(20)
