@@ -20,7 +20,7 @@ wordcloud = "^1.9.4"
 matplotlib = "^3.10.7" # Required for wordcloud generation sometimes or useful for other plots
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.0.0"
+pytest = "^9.0.1"
 
 [build-system]
 requires = ["poetry-core"]
