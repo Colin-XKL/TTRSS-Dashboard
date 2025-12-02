@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import os
+import matplotlib.font_manager as fm
 from wordcloud import WordCloud
 from sqlalchemy.orm import Session
 from src.services import DashboardService
@@ -9,8 +10,32 @@ from src.services import DashboardService
 def get_font_path():
     """
     Get the path to a font that supports Chinese characters.
-    Checks common locations for Noto Sans CJK and WenQuanYi Zen Hei.
+    Tries to find fonts via matplotlib's font manager first,
+    then checks common locations for Noto Sans CJK and WenQuanYi Zen Hei as fallback.
     """
+    # 1. Try to find font by family name using matplotlib
+    # Preferred fonts for Chinese rendering
+    font_families = [
+        'Noto Sans CJK SC', 'Noto Sans CJK',
+        'WenQuanYi Zen Hei', 'SimHei', 'Arial Unicode MS'
+    ]
+
+    for family in font_families:
+        try:
+            # findfont returns a default font if the requested one isn't found
+            # so we need to verify if it actually matches what we asked for (roughly)
+            # However, findfont matches best candidate.
+
+            # A more reliable way: check if the family exists in the font manager
+            # fontManager.ttflist is a list of FontEntry objects
+            for f in fm.fontManager.ttflist:
+                if family.lower() in f.name.lower():
+                    return f.fname
+        except Exception:
+            continue
+
+    # 2. Fallback to checking hardcoded paths (useful for Docker environments where
+    # matplotlib cache might not be updated or specific paths are known)
     candidates = [
         # Debian/Ubuntu/Docker default for fonts-noto-cjk
         "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
