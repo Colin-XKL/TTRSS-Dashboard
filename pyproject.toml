@@ -16,7 +16,7 @@ jieba = "^0.42.1"
 python-dotenv = "^1.2.1"
 plotly = "^6.5.0"
 streamlit-option-menu = "^0.4.0"
-wordcloud = "^1.9.4"
+wordcloud = "^1.9.6"
 matplotlib = "^3.10.7" # Required for wordcloud generation sometimes or useful for other plots
 
 [tool.poetry.group.dev.dependencies]
